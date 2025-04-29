@@ -74,10 +74,6 @@ app.get('/admin.html', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-// Protege todas APIs do admin
-app.use('/api/plataformas', requireAuth);
-app.use('/api/jogos', requireAuth);
-
 // Função para mapear campos das plataformas
 function mapPlataformaCampos(p) {
   return {
@@ -105,16 +101,13 @@ function mapJogoCampos(jogo) {
   };
 }
 
-// API plataformas (listar apenas do admin logado)
+// Rotas GET públicas
 app.get('/api/plataformas', async (req, res) => {
   try {
-    const adminId = req.cookies.admin_id;
-    if (!adminId) return res.status(401).json({ error: 'Não autorizado' });
-
+    // Remover filtro por adminId para mostrar todas as plataformas
     const { data, error } = await supabase
       .from('plataformas')
-      .select('*')
-      .eq('id_administrador', adminId);
+      .select('*');
     if (error) throw error;
     res.json(data);
   } catch (err) {
@@ -123,8 +116,22 @@ app.get('/api/plataformas', async (req, res) => {
   }
 });
 
-// API plataformas (salvar apenas para o admin logado)
-app.post('/api/plataformas', async (req, res) => {
+app.get('/api/jogos', async (req, res) => {
+  try {
+    // Remover filtro por adminId para mostrar todos os jogos
+    const { data, error } = await supabase
+      .from('jogos')
+      .select('*');
+    if (error) throw error;
+    res.json(data);
+  } catch (err) {
+    console.error('Erro ao buscar jogos:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Rotas POST protegidas
+app.post('/api/plataformas', requireAuth, async (req, res) => {
   try {
     const adminId = req.cookies.admin_id;
     if (!adminId) return res.status(401).json({ error: 'Não autorizado' });
@@ -144,26 +151,7 @@ app.post('/api/plataformas', async (req, res) => {
   }
 });
 
-// API jogos (listar apenas do admin logado)
-app.get('/api/jogos', async (req, res) => {
-  try {
-    const adminId = req.cookies.admin_id;
-    if (!adminId) return res.status(401).json({ error: 'Não autorizado' });
-
-    const { data, error } = await supabase
-      .from('jogos')
-      .select('*')
-      .eq('id_administrador', adminId);
-    if (error) throw error;
-    res.json(data);
-  } catch (err) {
-    console.error('Erro ao buscar jogos:', err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// API jogos (salvar apenas para o admin logado)
-app.post('/api/jogos', async (req, res) => {
+app.post('/api/jogos', requireAuth, async (req, res) => {
   try {
     const adminId = req.cookies.admin_id;
     if (!adminId) return res.status(401).json({ error: 'Não autorizado' });
