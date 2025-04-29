@@ -235,19 +235,19 @@
       const apostaMaxima = document.getElementById('jogo-apostaMaxima').value.trim();
       const apostaSugeridaMin = document.getElementById('jogo-apostaSugeridaMin').value.trim();
       const apostaSugeridaMax = document.getElementById('jogo-apostaSugeridaMax').value.trim();
-      const apostaSugerida = document.getElementById('jogo-apostaSugerida').value.split('\n').filter(Boolean);
+      const apostasugerida = document.getElementById('jogo-apostaSugerida').value.split('\n').filter(Boolean);
       const link = document.getElementById('jogo-link').value.trim();
       const editIndex = document.getElementById('jogo-edit-index').value;
       const msg = document.getElementById('jogo-msg');
       msg.style.display = 'none';
 
-      if (!nome || !imagem || !categoria || !distribuicao || !apostaMinima || !apostaMaxima || !link || apostaSugerida.length === 0) {
+      if (!nome || !imagem || !categoria || !distribuicao || !apostaMinima || !apostaMaxima || !link || apostasugerida.length === 0) {
         msg.style.display = 'block';
         msg.innerText = 'Preencha todos os campos obrigatórios e pelo menos uma aposta sugerida.';
         return;
       }
 
-      const jogoObj = { nome, imagem, categoria, distribuicao, apostaPadrao, apostaMinima, apostaMaxima, apostaSugerida, apostaSugeridaMin, apostaSugeridaMax, link };
+      const jogoObj = { nome, imagem, categoria, distribuicao, apostaPadrao, apostaMinima, apostaMaxima, apostasugerida, apostaSugeridaMin, apostaSugeridaMax, link };
       if (editIndex) {
         jogos[editIndex] = jogoObj;
       } else {
@@ -266,7 +266,7 @@
       document.getElementById('jogo-apostaPadrao').value = j.apostaPadrao;
       document.getElementById('jogo-apostaMinima').value = j.apostaMinima;
       document.getElementById('jogo-apostaMaxima').value = j.apostaMaxima;
-      document.getElementById('jogo-apostaSugerida').value = (j.apostaSugerida || []).join('\n');
+      document.getElementById('jogo-apostaSugerida').value = (j.apostasugerida || []).join('\n');
       document.getElementById('jogo-apostaSugeridaMin').value = j.apostaSugeridaMin || '';
       document.getElementById('jogo-apostaSugeridaMax').value = j.apostaSugeridaMax || '';
       document.getElementById('jogo-link').value = j.link || '';
