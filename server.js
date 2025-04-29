@@ -57,6 +57,12 @@ app.post('/login', async (req, res) => {
     return res.sendStatus(401);
   }
 
+  // Verifica se o admin está aprovado
+  if (!data.aprovado) {
+    console.error('Usuário não aprovado');
+    return res.status(401).send('Usuário não autorizado');
+  }
+
   const senhaCorreta = await bcrypt.compare(senha, data.password_hash);
   if (senhaCorreta) {
     // Salva o id do admin em um cookie (não seguro para produção, mas suficiente para este contexto)
