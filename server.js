@@ -17,6 +17,8 @@ const SESSION_SECRET = 'rainha-dos-ganhos';
 // Supabase credentials
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
+console.log('Supabase URL:', SUPABASE_URL ? 'Configurado' : 'Não configurado');
+console.log('Supabase Key:', SUPABASE_KEY ? 'Configurado' : 'Não configurado');
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 app.use(bodyParser.json());
