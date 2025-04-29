@@ -97,7 +97,9 @@ function mapJogoCampos(jogo) {
     apostasmaxima: jogo.apostasmaxima || jogo.apostaMaxima || '100%',
     apostasugerida: Array.isArray(jogo.apostasugerida)
       ? jogo.apostasugerida
-      : (jogo.apostasugerida ? [jogo.apostasugerida] : []),
+      : (typeof jogo.apostasugerida === 'string'
+          ? jogo.apostasugerida.split('\n').map(a => a.trim()).filter(a => a)
+          : []),
     link: jogo.link || jogo.Link || '',
     id_administrador: jogo.id_administrador
   };
