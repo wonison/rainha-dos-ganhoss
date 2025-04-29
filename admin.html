@@ -13,7 +13,7 @@
     th { background: #f4f6fa; }
     tr:nth-child(even) { background: #faf7fd; }
     .actions button { margin-right: 6px; }
-    .form-row { display: flex; gap: 12px; margin-bottom: 10px; }
+    .form-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
     .form-row input, .form-row select { flex: 1; padding: 6px 8px; border-radius: 6px; border: 1px solid #ccc; }
     .form-row label { min-width: 90px; font-size: 0.97rem; color: #555; }
     .form-row textarea { flex: 2; padding: 6px 8px; border-radius: 6px; border: 1px solid #ccc; }
@@ -30,6 +30,10 @@
       .form-row { flex-direction: column; gap: 4px; }
       th, td { font-size: 0.97rem; }
     }
+    input[type="file"] {
+      max-width: 220px;
+      padding: 4px 0;
+    }
   </style>
 </head>
 <body>
@@ -45,8 +49,12 @@
         <div class="form-row">
           <label>Nome:</label>
           <input type="text" id="plat-nome" required>
-          <label>Imagem (URL):</label>
-          <input type="text" id="plat-img" required>
+        </div>
+        <div class="form-row">
+          <label>Imagem:</label>
+          <input type="file" id="plat-img" accept="image/*">
+        </div>
+        <div class="form-row">
           <label>Status:</label>
           <select id="plat-status">
             <option>NOVO</option>
@@ -74,8 +82,8 @@
         <div class="form-row">
           <label>Nome:</label>
           <input type="text" id="jogo-nome" required>
-          <label>Imagem (URL):</label>
-          <input type="text" id="jogo-img" required>
+          <label>Imagem:</label>
+          <input type="file" id="jogo-img" accept="image/*">
         </div>
         <div class="form-row">
           <label>Categoria:</label>
@@ -155,19 +163,48 @@
         msg.innerText = 'Erro ao salvar plataformas: ' + (err.error || JSON.stringify(err));
       });
     }
-    document.getElementById('form-plataforma').onsubmit = function(e) {
+    document.getElementById('form-plataforma').onsubmit = async function(e) {
       e.preventDefault();
       const nome = document.getElementById('plat-nome').value;
-      const imagem = document.getElementById('plat-img').value;
       const status = document.getElementById('plat-status').value;
       const link = document.getElementById('plat-link').value;
       const editIndex = document.getElementById('plat-edit-index').value;
-      if (editIndex) {
-        plataformas[editIndex] = { nome, imagem, status, link };
+      const isEditing = editIndex !== '' && !isNaN(editIndex) && Number(editIndex) >= 0;
+      const fileInput = document.getElementById('plat-img');
+      let imagem = '';
+      if (fileInput.files && fileInput.files[0]) {
+        const formData = new FormData();
+        formData.append('imagem', fileInput.files[0]);
+        const uploadRes = await fetch('/upload', {
+          method: 'POST',
+          body: formData
+        });
+        if (uploadRes.ok) {
+          const data = await uploadRes.json();
+          imagem = data.imageUrl;
+        } else {
+          alert('Erro ao fazer upload da imagem!');
+          return;
+        }
+      } else if (isEditing) {
+        imagem = plataformas[Number(editIndex)].imagem;
+      }
+      if (!nome || !imagem || !status || !link) {
+        alert('Preencha todos os campos obrigatórios e selecione uma imagem.');
+        return;
+      }
+      if (isEditing) {
+        const id = plataformas[Number(editIndex)].id;
+        await fetch(`/api/plataformas/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, imagem, status, link })
+        });
+        loadPlataformas();
       } else {
         plataformas.push({ nome, imagem, status, link });
+        savePlataformas();
       }
-      savePlataformas();
       this.reset();
       document.getElementById('plat-edit-index').value = '';
     };
@@ -223,10 +260,9 @@
         msg.innerText = 'Erro ao salvar jogos: ' + (err.error || JSON.stringify(err));
       });
     }
-    document.getElementById('form-jogo').onsubmit = function(e) {
+    document.getElementById('form-jogo').onsubmit = async function(e) {
       e.preventDefault();
       const nome = document.getElementById('jogo-nome').value.trim();
-      const imagem = document.getElementById('jogo-img').value.trim();
       const categoria = document.getElementById('jogo-categoria').value;
       const distribuicao = document.getElementById('jogo-distribuicao').value.trim();
       let apostaPadrao = document.getElementById('jogo-apostaPadrao').value.trim();
@@ -238,22 +274,46 @@
       const apostasugerida = document.getElementById('jogo-apostaSugerida').value.split('\n').filter(Boolean);
       const link = document.getElementById('jogo-link').value.trim();
       const editIndex = document.getElementById('jogo-edit-index').value;
+      const isEditing = editIndex !== '' && !isNaN(editIndex) && Number(editIndex) >= 0;
       const msg = document.getElementById('jogo-msg');
       msg.style.display = 'none';
-
+      const fileInput = document.getElementById('jogo-img');
+      let imagem = '';
+      if (fileInput.files && fileInput.files[0]) {
+        const formData = new FormData();
+        formData.append('imagem', fileInput.files[0]);
+        const uploadRes = await fetch('/upload', {
+          method: 'POST',
+          body: formData
+        });
+        if (uploadRes.ok) {
+          const data = await uploadRes.json();
+          imagem = data.imageUrl;
+        } else {
+          alert('Erro ao fazer upload da imagem!');
+          return;
+        }
+      } else if (isEditing) {
+        imagem = jogos[Number(editIndex)].imagem;
+      }
       if (!nome || !imagem || !categoria || !distribuicao || !apostaMinima || !apostaMaxima || !link || apostasugerida.length === 0) {
         msg.style.display = 'block';
         msg.innerText = 'Preencha todos os campos obrigatórios e pelo menos uma aposta sugerida.';
         return;
       }
-
       const jogoObj = { nome, imagem, categoria, distribuicao, apostaPadrao, apostaMinima, apostaMaxima, apostasugerida, apostaSugeridaMin, apostaSugeridaMax, link };
-      if (editIndex) {
-        jogos[editIndex] = jogoObj;
+      if (isEditing) {
+        const id = jogos[Number(editIndex)].id;
+        await fetch(`/api/jogos/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(jogoObj)
+        });
+        loadJogos();
       } else {
         jogos.push(jogoObj);
+        saveJogos();
       }
-      saveJogos();
       this.reset();
       document.getElementById('jogo-edit-index').value = '';
     };

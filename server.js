@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { createClient } = require('@supabase/supabase-js');
 const bcrypt = require('bcrypt');
+const multer = require('multer');
 require('dotenv').config();
 
 const app = express();
@@ -21,9 +22,12 @@ console.log('Supabase URL:', SUPABASE_URL ? 'Configurado' : 'Não configurado');
 console.log('Supabase Key:', SUPABASE_KEY ? 'Configurado' : 'Não configurado');
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const upload = multer({ dest: 'uploads/' }); // pasta onde as imagens serão salvas
+
 app.use(bodyParser.json());
 app.use(cookieParser(SESSION_SECRET));
 app.use(express.static(__dirname));
+app.use('/uploads', express.static('uploads'));
 
 // Função para verificar se está autenticado
 function isAuthenticated(req) {
@@ -234,6 +238,49 @@ app.get('/logout', (req, res) => {
 // Rota padrão
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Endpoint para upload de imagem
+app.post('/upload', upload.single('imagem'), (req, res) => {
+  if (!req.file) return res.status(400).send('Nenhum arquivo enviado.');
+  // Retorne o caminho relativo para salvar no banco
+  res.json({ imageUrl: `/uploads/${req.file.filename}` });
+});
+
+// Edição individual de plataforma
+app.put('/api/plataformas/:id', requireAuth, async (req, res) => {
+  const adminId = req.cookies.admin_id;
+  const { id } = req.params;
+  const { nome, imagem, status, link } = req.body;
+  try {
+    const { error } = await supabase
+      .from('plataformas')
+      .update({ nome, imagem, status, link })
+      .eq('id', id)
+      .eq('id_administrador', adminId);
+    if (error) throw error;
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Edição individual de jogo
+app.put('/api/jogos/:id', requireAuth, async (req, res) => {
+  const adminId = req.cookies.admin_id;
+  const { id } = req.params;
+  const updateFields = { ...req.body };
+  try {
+    const { error } = await supabase
+      .from('jogos')
+      .update(updateFields)
+      .eq('id', id)
+      .eq('id_administrador', adminId);
+    if (error) throw error;
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Middleware global de tratamento de erros
