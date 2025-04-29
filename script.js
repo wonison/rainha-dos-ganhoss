@@ -169,6 +169,15 @@ function renderizarJogos(lista) {
     container.innerHTML = '';
 
     lista.forEach(jogo => {
+      // Sorteia 2 apostas sugeridas aleatórias
+      let apostasSorteadas = [];
+      if (Array.isArray(jogo.apostasugerida) && jogo.apostasugerida.length > 0) {
+        const embaralhadas = [...jogo.apostasugerida].sort(() => Math.random() - 0.5);
+        apostasSorteadas = embaralhadas.slice(0, 2);
+      } else {
+        apostasSorteadas = ['Nenhuma aposta sugerida'];
+      }
+
       const card = document.createElement('div');
       card.className = 'card';
       card.setAttribute('data-categoria', jogo.categoria);
@@ -200,7 +209,7 @@ function renderizarJogos(lista) {
         
         <div class="aposta-sugerida-box">
           <span class="mb-2">Aposta Sugerida:</span>
-          ${jogo._apostasSelecionadas.map(aposta => `<span>${aposta}</span>`).join('')}
+          ${apostasSorteadas.map(aposta => `<span>${aposta}</span>`).join('')}
         </div>
         <a href="${jogo.link}" target="_blank" class="jogar-btn">Jogar</a>
       `;
