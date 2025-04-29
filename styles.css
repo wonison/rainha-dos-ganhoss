@@ -1,0 +1,64 @@
+#contador-atualizacao {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 10px auto;
+    max-width: 300px;
+}
+
+.status-box {
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 10px auto;
+    max-width: 400px;
+    padding: 15px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.status-box div {
+    margin: 5px 0;
+    color: #333;
+    font-size: 14px;
+}
+
+.status-box div:last-child {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.barra {
+    min-height: 6px;
+    min-width: 2px; /* Garante que mesmo com 1% a barra seja visível */
+    transition: width 0.3s ease;
+}
+
+.aposta-sugerida-box {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    text-align: center;
+}
+
+.aposta-sugerida-box span {
+    display: block;
+    margin: 8px 0;
+    font-size: 14px;
+    color: #333;
+    padding: 5px;
+}
+
+.aposta-sugerida-box span:first-child {
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.aposta-sugerida-box span:not(:first-child) {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+} 

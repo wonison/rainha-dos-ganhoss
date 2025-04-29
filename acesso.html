@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Acesso Admin - Rainha dos Ganhos</title>
+  <style>
+    body { background: #f4f6fa; font-family: Arial, sans-serif; margin: 0; }
+    .acesso-container {
+      max-width: 370px;
+      margin: 80px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px #0001;
+      padding: 32px 28px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tabs {
+      display: flex;
+      width: 100%;
+      margin-bottom: 18px;
+    }
+    .tabs button {
+      flex: 1;
+      padding: 10px 0;
+      border: none;
+      background: #f4f6fa;
+      color: #b629ee;
+      font-weight: 600;
+      font-size: 1.05rem;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+    .tabs button.active {
+      background: #b629ee;
+      color: #fff;
+    }
+    .form-row { width: 100%; margin-bottom: 16px; }
+    label { display: block; margin-bottom: 4px; color: #555; }
+    input[type="text"], input[type="password"], input[type="email"] {
+      width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    .btn {
+      background: #b629ee;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 0;
+      font-weight: 600;
+      font-size: 1rem;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .btn:hover { background: #8c1bb7; }
+    .error { color: #e7517b; margin-bottom: 10px; font-size: 0.98rem; }
+    .success { color: #2ecc40; margin-bottom: 10px; font-size: 0.98rem; }
+  </style>
+</head>
+<body>
+  <div class="acesso-container">
+    <div class="tabs">
+      <button id="tabLogin" class="active">Login</button>
+      <button id="tabCriar">Criar Usuário</button>
+    </div>
+    <div id="loginFormDiv">
+      <form id="loginForm">
+        <div class="form-row">
+          <label for="usuario">Usuário ou Email</label>
+          <input type="text" id="usuario" name="usuario" required autofocus>
+        </div>
+        <div class="form-row">
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" name="senha" required>
+        </div>
+        <div class="error" id="loginError" style="display:none;"></div>
+        <button type="submit" class="btn">Entrar</button>
+      </form>
+    </div>
+    <div id="criarUsuarioFormDiv" style="display:none;">
+      <form id="criarUsuarioForm">
+        <div class="form-row">
+          <label for="usuarioNovo">Usuário</label>
+          <input type="text" id="usuarioNovo" name="usuarioNovo" required>
+        </div>
+        <div class="form-row">
+          <label for="emailNovo">Email</label>
+          <input type="email" id="emailNovo" name="emailNovo" required>
+        </div>
+        <div class="form-row">
+          <label for="senhaNova">Senha</label>
+          <input type="password" id="senhaNova" name="senhaNova" required>
+        </div>
+        <div class="error" id="criarUsuarioError" style="display:none;"></div>
+        <div class="success" id="criarUsuarioSuccess" style="display:none;"></div>
+        <button type="submit" class="btn">Criar Usuário</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    // Alternar abas
+    const tabLogin = document.getElementById('tabLogin');
+    const tabCriar = document.getElementById('tabCriar');
+    const loginFormDiv = document.getElementById('loginFormDiv');
+    const criarUsuarioFormDiv = document.getElementById('criarUsuarioFormDiv');
+    tabLogin.onclick = function() {
+      tabLogin.classList.add('active');
+      tabCriar.classList.remove('active');
+      loginFormDiv.style.display = '';
+      criarUsuarioFormDiv.style.display = 'none';
+    };
+    tabCriar.onclick = function() {
+      tabCriar.classList.add('active');
+      tabLogin.classList.remove('active');
+      criarUsuarioFormDiv.style.display = '';
+      loginFormDiv.style.display = 'none';
+    };
+
+    // Login
+    document.getElementById('loginForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const usuario = document.getElementById('usuario').value;
+      const senha = document.getElementById('senha').value;
+      const res = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario, senha })
+      });
+      if (res.ok) {
+        window.location.href = '/admin.html';
+      } else {
+        document.getElementById('loginError').style.display = 'block';
+        document.getElementById('loginError').innerText = 'Usuário ou senha inválidos.';
+      }
+    };
+
+    // Criar usuário
+    document.getElementById('criarUsuarioForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const usuario = document.getElementById('usuarioNovo').value;
+      const email = document.getElementById('emailNovo').value;
+      const senha = document.getElementById('senhaNova').value;
+      const res = await fetch('/criar-usuario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario, email, senha })
+      });
+      if (res.ok) {
+        document.getElementById('criarUsuarioSuccess').style.display = 'block';
+        document.getElementById('criarUsuarioSuccess').innerText = 'Usuário criado com sucesso! Redirecionando para login...';
+        document.getElementById('criarUsuarioError').style.display = 'none';
+        setTimeout(() => {
+          tabLogin.click();
+        }, 1200);
+      } else {
+        const msg = await res.text();
+        document.getElementById('criarUsuarioError').style.display = 'block';
+        document.getElementById('criarUsuarioError').innerText = msg || 'Erro ao criar usuário.';
+        document.getElementById('criarUsuarioSuccess').style.display = 'none';
+      }
+    };
+  </script>
+</body>
+</html> 

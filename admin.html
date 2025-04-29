@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel Admin - Rainha dos Ganhos</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f6fa; margin: 0; padding: 0; }
+    .container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 12px #0001; padding: 32px; }
+    h1 { text-align: center; color: #b629ee; }
+    h2 { margin-top: 32px; color: #333; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+    th, td { border: 1px solid #eee; padding: 8px 10px; text-align: left; }
+    th { background: #f4f6fa; }
+    tr:nth-child(even) { background: #faf7fd; }
+    .actions button { margin-right: 6px; }
+    .form-row { display: flex; gap: 12px; margin-bottom: 10px; }
+    .form-row input, .form-row select { flex: 1; padding: 6px 8px; border-radius: 6px; border: 1px solid #ccc; }
+    .form-row label { min-width: 90px; font-size: 0.97rem; color: #555; }
+    .form-row textarea { flex: 2; padding: 6px 8px; border-radius: 6px; border: 1px solid #ccc; }
+    .btn { background: #b629ee; color: #fff; border: none; border-radius: 6px; padding: 7px 18px; font-weight: 600; cursor: pointer; transition: background 0.18s; }
+    .btn:hover { background: #8c1bb7; }
+    .danger { background: #e7517b; }
+    .danger:hover { background: #b6294a; }
+    .section { margin-bottom: 40px; }
+    .img-preview { max-width: 60px; max-height: 60px; border-radius: 8px; border: 1px solid #eee; }
+    .link-btn { background: #2ecc40; color: #fff; border: none; border-radius: 6px; padding: 4px 10px; font-size: 0.97rem; margin-left: 4px; text-decoration: none; display: inline-flex; align-items: center; gap: 3px; }
+    .link-btn:hover { background: #27ae38; }
+    @media (max-width: 700px) {
+      .container { padding: 10px; }
+      .form-row { flex-direction: column; gap: 4px; }
+      th, td { font-size: 0.97rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+      <button id="logoutBtn" class="btn danger" style="padding: 7px 18px;">Sair</button>
+    </div>
+    <h1>Painel Admin</h1>
+
+    <div class="section">
+      <h2>Plataformas</h2>
+      <form id="form-plataforma">
+        <div class="form-row">
+          <label>Nome:</label>
+          <input type="text" id="plat-nome" required>
+          <label>Imagem (URL):</label>
+          <input type="text" id="plat-img" required>
+          <label>Status:</label>
+          <select id="plat-status">
+            <option>NOVO</option>
+            <option>OFICIAL!</option>
+            <option>EM BREVE</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Link:</label>
+          <input type="text" id="plat-link" required placeholder="https://">
+        </div>
+        <button type="submit" class="btn">Adicionar Plataforma</button>
+        <input type="hidden" id="plat-edit-index">
+      </form>
+      <div id="plataforma-msg" style="color:#e7517b; margin-bottom:10px; display:none;"></div>
+      <table id="plataformas-table">
+        <thead><tr><th>Nome</th><th>Imagem</th><th>Status</th><th>Link</th><th>Ações</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>Jogos</h2>
+      <form id="form-jogo">
+        <div class="form-row">
+          <label>Nome:</label>
+          <input type="text" id="jogo-nome" required>
+          <label>Imagem (URL):</label>
+          <input type="text" id="jogo-img" required>
+        </div>
+        <div class="form-row">
+          <label>Categoria:</label>
+          <select id="jogo-categoria">
+            <option value="pg">PG Games</option>
+            <option value="pp">PP Games</option>
+          </select>
+          <label>Distribuição:</label>
+          <input type="text" id="jogo-distribuicao" required>
+          <label>Aposta Padrão:</label>
+          <input type="text" id="jogo-apostaPadrao">
+        </div>
+        <div class="form-row">
+          <label>Aposta Mínima:</label>
+          <input type="text" id="jogo-apostaMinima" required>
+          <label>Aposta Máxima:</label>
+          <input type="text" id="jogo-apostaMaxima" required>
+        </div>
+        <div class="form-row">
+          <label>Aposta Sugerida Mínima:</label>
+          <input type="text" id="jogo-apostaSugeridaMin" placeholder="0.40">
+          <label>Aposta Sugerida Máxima:</label>
+          <input type="text" id="jogo-apostaSugeridaMax" placeholder="5.00">
+        </div>
+        <div class="form-row">
+          <label>Apostas Sugeridas (1 por linha):</label>
+          <textarea id="jogo-apostaSugerida" rows="2"></textarea>
+        </div>
+        <div class="form-row">
+          <label>Link:</label>
+          <input type="text" id="jogo-link" required placeholder="https://">
+        </div>
+        <button type="submit" class="btn">Adicionar Jogo</button>
+        <input type="hidden" id="jogo-edit-index">
+      </form>
+      <div id="jogo-msg" style="color:#e7517b; margin-bottom:10px; display:none;"></div>
+      <table id="jogos-table">
+        <thead><tr><th>Nome</th><th>Imagem</th><th>Categoria</th><th>Distribuição</th><th>Link</th><th>Ações</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let plataformas = [];
+    function renderPlataformas() {
+      const tbody = document.querySelector('#plataformas-table tbody');
+      tbody.innerHTML = '';
+      plataformas.forEach((p, i) => {
+        tbody.innerHTML += `<tr>
+          <td>${p.nome}</td>
+          <td><img src="${p.imagem}" class="img-preview"></td>
+          <td>${p.status}</td>
+          <td>${p.link ? `<a href="${p.link}" target="_blank" class="link-btn">Acessar</a>` : ''}</td>
+          <td class="actions">
+            <button onclick="editPlataforma(${i})" class="btn">Editar</button>
+            <button onclick="deletePlataforma(${i})" class="btn danger">Excluir</button>
+          </td>
+        </tr>`;
+      });
+    }
+    function loadPlataformas() {
+      fetch('/api/plataformas').then(r => r.json()).then(data => { plataformas = data; renderPlataformas(); });
+    }
+    function savePlataformas() {
+      const msg = document.getElementById('plataforma-msg');
+      msg.style.display = 'none';
+      fetch('/api/plataformas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(plataformas)
+      }).then(r => {
+        if (!r.ok) return r.json().then(err => { throw err; });
+        return r;
+      }).then(loadPlataformas).catch(err => {
+        msg.style.display = 'block';
+        msg.innerText = 'Erro ao salvar plataformas: ' + (err.error || JSON.stringify(err));
+      });
+    }
+    document.getElementById('form-plataforma').onsubmit = function(e) {
+      e.preventDefault();
+      const nome = document.getElementById('plat-nome').value;
+      const imagem = document.getElementById('plat-img').value;
+      const status = document.getElementById('plat-status').value;
+      const link = document.getElementById('plat-link').value;
+      const editIndex = document.getElementById('plat-edit-index').value;
+      if (editIndex) {
+        plataformas[editIndex] = { nome, imagem, status, link };
+      } else {
+        plataformas.push({ nome, imagem, status, link });
+      }
+      savePlataformas();
+      this.reset();
+      document.getElementById('plat-edit-index').value = '';
+    };
+    window.editPlataforma = function(i) {
+      const p = plataformas[i];
+      document.getElementById('plat-nome').value = p.nome;
+      document.getElementById('plat-img').value = p.imagem;
+      document.getElementById('plat-status').value = p.status;
+      document.getElementById('plat-link').value = p.link || '';
+      document.getElementById('plat-edit-index').value = i;
+    };
+    window.deletePlataforma = function(i) {
+      if (confirm('Excluir esta plataforma?')) {
+        plataformas.splice(i, 1);
+        savePlataformas();
+      }
+    };
+    loadPlataformas();
+
+    let jogos = [];
+    function renderJogos() {
+      const tbody = document.querySelector('#jogos-table tbody');
+      tbody.innerHTML = '';
+      jogos.forEach((j, i) => {
+        tbody.innerHTML += `<tr>
+          <td>${j.nome}</td>
+          <td><img src="${j.imagem}" class="img-preview"></td>
+          <td>${j.categoria}</td>
+          <td>${j.distribuicao}</td>
+          <td>${j.link ? `<a href="${j.link}" target="_blank" class="link-btn">Acessar</a>` : ''}</td>
+          <td class="actions">
+            <button onclick="editJogo(${i})" class="btn">Editar</button>
+            <button onclick="deleteJogo(${i})" class="btn danger">Excluir</button>
+          </td>
+        </tr>`;
+      });
+    }
+    function loadJogos() {
+      fetch('/api/jogos').then(r => r.json()).then(data => { jogos = data; renderJogos(); });
+    }
+    function saveJogos() {
+      const msg = document.getElementById('jogo-msg');
+      msg.style.display = 'none';
+      fetch('/api/jogos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(jogos)
+      }).then(r => {
+        if (!r.ok) return r.json().then(err => { throw err; });
+        return r;
+      }).then(loadJogos).catch(err => {
+        msg.style.display = 'block';
+        msg.innerText = 'Erro ao salvar jogos: ' + (err.error || JSON.stringify(err));
+      });
+    }
+    document.getElementById('form-jogo').onsubmit = function(e) {
+      e.preventDefault();
+      const nome = document.getElementById('jogo-nome').value.trim();
+      const imagem = document.getElementById('jogo-img').value.trim();
+      const categoria = document.getElementById('jogo-categoria').value;
+      const distribuicao = document.getElementById('jogo-distribuicao').value.trim();
+      let apostaPadrao = document.getElementById('jogo-apostaPadrao').value.trim();
+      if (!apostaPadrao) apostaPadrao = 'R$ 1,00';
+      const apostaMinima = document.getElementById('jogo-apostaMinima').value.trim();
+      const apostaMaxima = document.getElementById('jogo-apostaMaxima').value.trim();
+      const apostaSugeridaMin = document.getElementById('jogo-apostaSugeridaMin').value.trim();
+      const apostaSugeridaMax = document.getElementById('jogo-apostaSugeridaMax').value.trim();
+      const apostaSugerida = document.getElementById('jogo-apostaSugerida').value.split('\n').filter(Boolean);
+      const link = document.getElementById('jogo-link').value.trim();
+      const editIndex = document.getElementById('jogo-edit-index').value;
+      const msg = document.getElementById('jogo-msg');
+      msg.style.display = 'none';
+
+      if (!nome || !imagem || !categoria || !distribuicao || !apostaMinima || !apostaMaxima || !link || apostaSugerida.length === 0) {
+        msg.style.display = 'block';
+        msg.innerText = 'Preencha todos os campos obrigatórios e pelo menos uma aposta sugerida.';
+        return;
+      }
+
+      const jogoObj = { nome, imagem, categoria, distribuicao, apostaPadrao, apostaMinima, apostaMaxima, apostaSugerida, apostaSugeridaMin, apostaSugeridaMax, link };
+      if (editIndex) {
+        jogos[editIndex] = jogoObj;
+      } else {
+        jogos.push(jogoObj);
+      }
+      saveJogos();
+      this.reset();
+      document.getElementById('jogo-edit-index').value = '';
+    };
+    window.editJogo = function(i) {
+      const j = jogos[i];
+      document.getElementById('jogo-nome').value = j.nome;
+      document.getElementById('jogo-img').value = j.imagem;
+      document.getElementById('jogo-categoria').value = j.categoria;
+      document.getElementById('jogo-distribuicao').value = j.distribuicao;
+      document.getElementById('jogo-apostaPadrao').value = j.apostaPadrao;
+      document.getElementById('jogo-apostaMinima').value = j.apostaMinima;
+      document.getElementById('jogo-apostaMaxima').value = j.apostaMaxima;
+      document.getElementById('jogo-apostaSugerida').value = (j.apostaSugerida || []).join('\n');
+      document.getElementById('jogo-apostaSugeridaMin').value = j.apostaSugeridaMin || '';
+      document.getElementById('jogo-apostaSugeridaMax').value = j.apostaSugeridaMax || '';
+      document.getElementById('jogo-link').value = j.link || '';
+      document.getElementById('jogo-edit-index').value = i;
+    };
+    window.deleteJogo = function(i) {
+      if (confirm('Excluir este jogo?')) {
+        jogos.splice(i, 1);
+        saveJogos();
+      }
+    };
+    loadJogos();
+
+    document.getElementById('logoutBtn').onclick = function() {
+      fetch('/logout').then(() => {
+        window.location.href = '/login.html';
+      });
+    };
+  </script>
+</body>
+</html>

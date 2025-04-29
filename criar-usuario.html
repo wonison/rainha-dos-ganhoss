@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Criar Usuário Admin - Rainha dos Ganhos</title>
+  <style>
+    body { background: #f4f6fa; font-family: Arial, sans-serif; margin: 0; }
+    .login-container {
+      max-width: 350px;
+      margin: 80px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px #0001;
+      padding: 32px 28px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 { color: #b629ee; margin-bottom: 18px; }
+    .form-row { width: 100%; margin-bottom: 16px; }
+    label { display: block; margin-bottom: 4px; color: #555; }
+    input[type="text"], input[type="password"] {
+      width: 100%; padding: 8px 10px; border-radius: 6px; border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    .btn {
+      background: #2ecc40;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 0;
+      font-weight: 600;
+      font-size: 1rem;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .btn:hover { background: #27ae38; }
+    .error { color: #e7517b; margin-bottom: 10px; font-size: 0.98rem; }
+    .success { color: #2ecc40; margin-bottom: 10px; font-size: 0.98rem; }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Criar Usuário Admin</h2>
+    <form id="criarUsuarioForm">
+      <div class="form-row">
+        <label for="usuario">Usuário</label>
+        <input type="text" id="usuario" name="usuario" required autofocus>
+      </div>
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-row">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" required>
+      </div>
+      <div class="error" id="criarUsuarioError" style="display:none;"></div>
+      <div class="success" id="criarUsuarioSuccess" style="display:none;"></div>
+      <button type="submit" class="btn">Criar Usuário</button>
+    </form>
+    <div style="margin-top: 18px;">
+      <a href="/login.html">Voltar para login</a>
+    </div>
+  </div>
+  <script>
+    document.getElementById('criarUsuarioForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const usuario = document.getElementById('usuario').value;
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('senha').value;
+      const res = await fetch('/criar-usuario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario, email, senha })
+      });
+      if (res.ok) {
+        document.getElementById('criarUsuarioSuccess').style.display = 'block';
+        document.getElementById('criarUsuarioSuccess').innerText = 'Usuário criado com sucesso!';
+        document.getElementById('criarUsuarioError').style.display = 'none';
+        setTimeout(() => {
+          window.location.href = '/login.html';
+        }, 1000);
+      } else {
+        const msg = await res.text();
+        document.getElementById('criarUsuarioError').style.display = 'block';
+        document.getElementById('criarUsuarioError').innerText = msg || 'Erro ao criar usuário.';
+        document.getElementById('criarUsuarioSuccess').style.display = 'none';
+      }
+    };
+  </script>
+</body>
+</html> 

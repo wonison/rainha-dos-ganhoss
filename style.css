@@ -1,0 +1,825 @@
+body {
+  background: #b629ee;
+  color: #222;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  padding-top: 80px;
+}
+
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-width: 1100px;
+  width: 90%;
+  margin: 0 auto;
+  z-index: 200;
+  background: rgba(69, 58, 58, 0.95);
+  box-shadow: 0 2px 16px #0001;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px 0 24px;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-right {
+  gap: 10px;
+}
+
+.nav-btn-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #222;
+  text-decoration: none;
+  box-shadow: 0 2px 8px #0001;
+  transition: box-shadow 0.18s, background 0.18s, color 0.18s;
+  border: none;
+  outline: none;
+}
+
+.nav-btn-top svg {
+  display: block;
+}
+
+.nav-btn-top.home svg {
+  stroke: #2ecc40;
+}
+
+.nav-btn-top.instagram svg {}
+.nav-btn-top.telegram svg {}
+
+.nav-btn-top:hover {
+  background: #f0f8ff;
+  color: #2ecc40;
+  box-shadow: 0 4px 16px #2ecc4033;
+}
+
+.nav-btn-top.instagram:hover {
+  color: #d6249f;
+  box-shadow: 0 4px 16px #d6249f33;
+}
+
+.nav-btn-top.telegram:hover {
+  color: #0088cc;
+  box-shadow: 0 4px 16px #0088cc33;
+}
+
+.home-btn {
+  background: #0b1608;
+  border: 1px solid #253b1e;
+  color: white;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  padding: 0.125rem 0.5rem;
+  z-index: 10;
+  position: relative;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.home-btn:hover {
+  opacity: 0.9;
+}
+
+.social-links {
+  display: flex;
+  width: 50%;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 10;
+  position: relative;
+}
+
+.social-link {
+  color: white;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.social-link:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.top-header {
+  background: #222b22;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  box-shadow: 0 2px 8px #0004;
+}
+
+.logo img {
+  height: 60px;
+}
+
+nav {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-btn {
+  background: #2ecc40;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.nav-btn:hover {
+  background: #27ae38;
+}
+
+.platforms {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 36px;
+  background: #e7517b;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px #0001;
+  margin: 0 auto 18px auto;
+  padding: 24px 0 18px 0;
+  max-width: 900px;
+  min-height: 120px;
+  position: relative;
+}
+
+.platform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-width: 80px;
+  background: transparent;
+  box-shadow: 0 8px 32px #0002, 0 1.5px 6px #0001;
+  transition: box-shadow 0.22s, transform 0.22s;
+  padding: 18px 8px 10px 8px;
+  margin-bottom: 8px;
+  z-index: 1;
+}
+
+.platform a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+}
+
+.platform img {
+  width: 64px !important;
+  height: 64px !important;
+  border-radius: 50% !important;
+  border: 3px solid #2ecc40 !important;
+  background: #fff !important;
+  object-fit: cover !important;
+  margin-bottom: 6px !important;
+  box-shadow: 0 2px 8px #2ecc4011 !important;
+  display: block !important;
+  overflow: hidden !important;
+}
+
+.platform span {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #ff9800;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px #0003;
+}
+
+/* Seção de atualização */
+.atualizacao {
+  background: #ddd2d2;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px #0001;
+  margin: 0 auto 18px auto;
+  padding: 18px 0 10px 0;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-box {
+  background: #0303f1;
+  border-radius: 10px;
+  padding: 10px 30px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  display: flex;
+  gap: 30px;
+  box-shadow: 0 2px 8px #0001;
+  color: #dac2c2;
+  justify-content: center;
+}
+
+.filtros {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.filtro {
+  background: #f4f6fa;
+  color: #222;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  min-width: 110px;
+  text-align: center;
+}
+.filtro.ativo, .filtro:hover {
+  background: #2ecc40;
+  color: #fff;
+  border: 1.5px solid #2ecc40;
+}
+
+.jogos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+  padding: 20px 0 40px 0;
+  max-width: 1100px;
+  margin: 0 auto 32px auto;
+}
+
+.card {
+  background: #ddd2d2;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px #0001;
+  padding: 18px 16px 20px 16px;
+  width: 230px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 24px #2ecc4033;
+}
+.card img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #faf4f7;
+}
+.card h2 {
+  font-size: 1.1rem;
+  margin: 8px 0 6px 0;
+  color: #2ecc40;
+}
+.card p {
+  margin: 3px 0;
+  font-size: 0.98rem;
+}
+.destaque {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+.jogar-btn {
+  margin-top: 10px;
+  background: #2ecc40;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px #2ecc4011;
+}
+.jogar-btn:hover {
+  background: #27ae38;
+}
+
+footer {
+  background: #fff;
+  text-align: center;
+  padding: 18px 0;
+  position: static;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  color: #222;
+  box-shadow: 0 -2px 8px #0001;
+  margin-top: 32px;
+}
+
+.telegram-btn {
+  background: #229ed9;
+  color: #fff;
+  padding: 10px 28px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.telegram-btn:hover {
+  background: #1976a5;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .nav-container, .platforms, .atualizacao, .jogos {
+    max-width: 98vw;
+  }
+  .platforms {
+    gap: 16px;
+    padding: 16px 0 10px 0;
+  }
+  .jogos {
+    gap: 14px;
+    padding: 14px 0 24px 0;
+  }
+}
+@media (max-width: 600px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 4vw 0 4vw;
+  }
+  .platforms {
+    gap: 10px;
+    padding: 10px 0 6px 0;
+    flex-wrap: wrap;
+  }
+  .platform {
+    padding: 10px 4px 6px 4px;
+    min-width: 60px;
+  }
+  .platform img {
+    width: 48px;
+    height: 48px;
+  }
+  .atualizacao {
+    padding: 10px 0 6px 0;
+  }
+  .jogos {
+    gap: 8px;
+    padding: 8px 0 16px 0;
+  }
+  .card {
+    width: 90vw;
+    min-width: 120px;
+    padding: 10px 4px 12px 4px;
+  }
+  body {
+    padding-top: 70px;
+  }
+}
+
+.barra-container {
+  width: 100%;
+  background: #f4f6fa;
+  border-radius: 8px;
+  height: 10px;
+  margin: 4px 0 10px 0;
+  overflow: hidden;
+}
+
+.barra {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.4s;
+}
+
+.barra.verde {
+  background: #2ecc40;
+}
+
+.barra.amarelo {
+  background: #ffeb3b;
+}
+
+.barra.vermelho {
+  background: #e53935;
+}
+
+.aposta-sugerida-box, #aposta_sugerida {
+  background: #8c8cf4;
+  border-radius: 10px;
+  padding: 10px 8px 8px 8px;
+  margin: 10px 0 12px 0;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  box-shadow: 0 2px 8px #0001;
+}
+#aposta_sugerida span.mb-2, .aposta-sugerida-box span.mb-2 {
+  color: #bbecc1;
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+#aposta_sugerida span:not(.mb-2), .aposta-sugerida-box span:not(.mb-2) {
+  color: #222;
+  font-size: 13px;
+  margin-bottom: 2px;
+  margin-left: 8px;
+  position: relative;
+}
+#aposta_sugerida span:not(.mb-2)::before, .aposta-sugerida-box span:not(.mb-2)::before {
+  content: '•';
+  color: #ff9800;
+  margin-right: 6px;
+  font-size: 15px;
+  vertical-align: middle;
+}
+
+/* Terms Modal Styles */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: white;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 28rem;
+  border-radius: 0.5rem;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  padding-bottom: 0.75rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+  padding-top: 0;
+  font-size: 0.875rem;
+  overflow-y: auto;
+  max-height: 60vh;
+  color: #1a1a1a;
+}
+
+.modal-body p {
+  margin-bottom: 0.75rem;
+}
+
+.modal-body ul {
+  margin-bottom: 0.75rem;
+}
+
+.modal-footer {
+  padding: 1.5rem;
+  padding-top: 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.accept-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  background-color: #2ecc40;
+  color: white;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+}
+
+.accept-btn:hover {
+  background-color: #27ae38;
+}
+
+@media (min-width: 640px) {
+  .modal-overlay {
+    padding: 1rem;
+  }
+  .accept-btn {
+    width: auto;
+  }
+}
+
+/* Promo Modal Styles Melhorado */
+.promo-modal-content {
+  max-width: 380px;
+  width: 95%;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #232b23;
+  box-shadow: 0 8px 32px #0008, 0 1.5px 6px #0004;
+  margin: 0 auto;
+  animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.promo-modal-body {
+  margin: 0;
+  padding: 28px 24px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.promo-banner {
+  width: 100%;
+  max-width: 320px;
+  max-height: 180px;
+  border-radius: 12px;
+  object-fit: contain;
+  margin-bottom: 12px;
+  background: #181f1c;
+}
+
+.promo-checkbox {
+  margin: 10px 0 18px 0;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: #fff;
+  font-size: 0.97rem;
+}
+
+.promo-checkbox label {
+  color: #fff;
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+.promo-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.promo-btn {
+  font-weight: bold;
+  padding: 10px 0;
+  border-radius: 8px;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  text-align: center;
+  width: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  box-shadow: 0 2px 8px #0002;
+}
+
+.access-btn {
+  background-color: #229ed9;
+  color: white;
+}
+.access-btn:hover {
+  background-color: #1976a5;
+}
+.close-btn {
+  background-color: #ff8b00;
+  color: white;
+}
+.close-btn:hover {
+  background-color: #ffaa00;
+}
+
+@media (max-width: 500px) {
+  .promo-modal-content {
+    max-width: 98vw;
+    padding: 0;
+  }
+  .promo-modal-body {
+    padding: 16px 6px 12px 6px;
+  }
+  .promo-banner {
+    max-width: 98vw;
+    max-height: 120px;
+  }
+  .promo-btn {
+    font-size: 0.95rem;
+    padding: 8px 0;
+  }
+}
+
+/* Botão flutuante do Telegram */
+.telegram-float {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 120;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 24px #0088cc55;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.telegram-float:hover {
+  box-shadow: 0 8px 32px #0088cc99;
+  transform: translateY(-4px) scale(1.04);
+}
+.telegram-float .absolute {
+  position: absolute;
+}
+@media (max-width: 600px) {
+  .telegram-float {
+    right: 12px;
+    bottom: 12px;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+.floating-socials {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 120;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.float-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 24px #0003;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s, filter 0.2s;
+  filter: brightness(1);
+  min-width: 140px;
+  border: none;
+  outline: none;
+}
+
+.float-btn span {
+  pointer-events: none;
+}
+
+.float-btn.telegram {
+  background: linear-gradient(90deg, #0088cc 0%, #0099ff 100%);
+}
+.float-btn.telegram:hover {
+  box-shadow: 0 8px 32px #0088cc99;
+  filter: brightness(1.08);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.float-btn.instagram {
+  background: linear-gradient(90deg, #fd5949 0%, #d6249f 50%, #285AEB 100%);
+}
+.float-btn.instagram:hover {
+  box-shadow: 0 8px 32px #d6249f99;
+  filter: brightness(1.08);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.float-btn.whatsapp {
+  background: linear-gradient(90deg, #25d366 0%, #128c7e 100%);
+}
+.float-btn.whatsapp:hover {
+  box-shadow: 0 8px 32px #25d36699;
+  filter: brightness(1.08);
+  transform: translateY(-2px) scale(1.04);
+}
+
+@media (max-width: 600px) {
+  .floating-socials {
+    right: 10px;
+    bottom: 10px;
+    gap: 10px;
+  }
+  .float-btn {
+    padding: 10px 14px;
+    font-size: 0.97rem;
+    min-width: 110px;
+  }
+}
+
+.main-footer {
+  background: #fff;
+  color: #222;
+  box-shadow: 0 -2px 8px #0001;
+  padding: 28px 0 18px 0;
+  margin-top: 48px;
+  width: 100%;
+  text-align: center;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.footer-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f6fa;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  transition: box-shadow 0.18s, background 0.18s;
+  box-shadow: 0 2px 8px #0001;
+  font-size: 1.1rem;
+}
+
+.footer-links a:hover {
+  background: #e7517b22;
+  box-shadow: 0 4px 16px #e7517b33;
+}
+
+.footer-links svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 600px) {
+  .main-footer {
+    font-size: 0.97rem;
+    padding: 18px 0 12px 0;
+  }
+  .footer-content {
+    gap: 8px;
+  }
+  .footer-links {
+    gap: 10px;
+  }
+  .footer-links a {
+    width: 32px;
+    height: 32px;
+  }
+}
