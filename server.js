@@ -95,7 +95,9 @@ function mapJogoCampos(jogo) {
     apostapadrao: jogo.apostapadrao || jogo.apostaPadrao || '10%',
     apostas_minimas: jogo.apostas_minimas || jogo.apostaMinima || '1%',
     apostasmaxima: jogo.apostasmaxima || jogo.apostaMaxima || '100%',
-    apostasugerida: jogo.apostasugerida || '',
+    apostasugerida: Array.isArray(jogo.apostasugerida)
+      ? jogo.apostasugerida
+      : (jogo.apostasugerida ? [jogo.apostasugerida] : []),
     link: jogo.link || jogo.Link || '',
     id_administrador: jogo.id_administrador
   };
